@@ -7,7 +7,8 @@ namespace NorthwindConsole.Models
     {
         public int CategoryId { get; set; }
 
-        [Required]  //CategoryName is required _ this is an annotation
+        //CategoryName is required _ this is an annotation 
+        [Required(ErrorMessage = "YO - Enter the name!")]   
         public string CategoryName { get; set; }
         public string Description { get; set; }
 
