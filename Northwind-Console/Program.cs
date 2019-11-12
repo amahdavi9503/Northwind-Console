@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NLog;
 using NorthwindConsole.Models;
@@ -40,7 +42,24 @@ namespace NorthwindConsole
                         category.CategoryName = Console.ReadLine();
                         Console.WriteLine("Enter the Category Description:");
                         category.Description = Console.ReadLine();
-                        // TODO: save category to db
+
+                        // Save category to db  ***********?????? explain the following code
+                        ValidationContext context = new ValidationContext(category, null, null);
+                        List<ValidationResult> results = new List<ValidationResult>();
+
+                        var isValid = Validator.TryValidateObject(category, context, results, true);  //???????****
+                        if (isValid)
+                        {
+                            logger.Info("Validation passed");
+                            // TODO: save category to db
+                        }
+                        if (!isValid)
+                        {
+                            foreach (var result in results)
+                            {
+                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");  //Create a list of errors if we have multiple errors
+                            }
+                        }
                     }
                     Console.WriteLine();
 
