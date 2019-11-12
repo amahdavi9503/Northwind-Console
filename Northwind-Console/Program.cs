@@ -24,14 +24,23 @@ namespace NorthwindConsole
                     logger.Info($"Option {choice} selected");
                     if (choice == "1")
                     {
-                        var db = new NorthwindContext(); //Establish database connection using NorthwindContext class
-                        var query = db.Categories.OrderBy(p => p.CategoryName); //Create query using a LINQ statement
+                        var db = new NorthwindContext();
+                        var query = db.Categories.OrderBy(p => p.CategoryName);
 
                         Console.WriteLine($"{query.Count()} records returned");
                         foreach (var item in query)
                         {
                             Console.WriteLine($"{item.CategoryName} - {item.Description}");
                         }
+                    }
+                    else if (choice == "2")
+                    {
+                        Category category = new Category();
+                        Console.WriteLine("Enter Category Name:");
+                        category.CategoryName = Console.ReadLine();
+                        Console.WriteLine("Enter the Category Description:");
+                        category.Description = Console.ReadLine();
+                        // TODO: save category to db
                     }
                     Console.WriteLine();
 
