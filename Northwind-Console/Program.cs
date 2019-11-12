@@ -20,6 +20,7 @@ namespace NorthwindConsole
                 {
                     Console.WriteLine("1) Display Categories");
                     Console.WriteLine("2) Add Category");
+                    Console.WriteLine("3) Display Category and related products");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -43,15 +44,13 @@ namespace NorthwindConsole
                         Console.WriteLine("Enter the Category Description:");
                         category.Description = Console.ReadLine();
 
-                        // Save category to db  ***********?????? explain the following code
+                        // Save category to db - ***??Explain the following code
                         ValidationContext context = new ValidationContext(category, null, null);
                         List<ValidationResult> results = new List<ValidationResult>();
 
-                        var isValid = Validator.TryValidateObject(category, context, results, true);  //???????****
+                        var isValid = Validator.TryValidateObject(category, context, results, true);  //**??
                         if (isValid)
                         {
-                            logger.Info("Validation passed");
-                            // Save category to db
                             var db = new NorthwindContext();
                             // check for unique name
                             if (db.Categories.Any(c => c.CategoryName == category.CategoryName))
@@ -70,9 +69,23 @@ namespace NorthwindConsole
                         {
                             foreach (var result in results)
                             {
-                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");  //Create a list of errors if we have multiple errors
+                                logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}"); //Create a list of errors if we have multiple errors
                             }
                         }
+                    }
+                    else if (choice == "3")
+                    {
+                        var db = new NorthwindContext();
+                        var query = db.Categories.OrderBy(p => p.CategoryId);
+
+                        Console.WriteLine("Select the CategoryID whose products you want to display:");
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                        }
+                        int id = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        logger.Info($"CategoryId {id} selected");
                     }
                     Console.WriteLine();
 
