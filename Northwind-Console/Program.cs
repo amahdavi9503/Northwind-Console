@@ -86,6 +86,12 @@ namespace NorthwindConsole
                         int id = int.Parse(Console.ReadLine());
                         Console.Clear();
                         logger.Info($"CategoryId {id} selected");
+
+                        // Create an instance of the Category class (category), and that instance is then 
+                        // instantiated with a concrete object based on what is returned from the database search
+                        Category category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+
+                        Console.WriteLine($"{category.CategoryName} - {category.Description}");
                     }
                     Console.WriteLine();
 
