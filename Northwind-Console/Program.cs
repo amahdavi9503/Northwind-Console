@@ -92,6 +92,12 @@ namespace NorthwindConsole
                         Category category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
 
                         Console.WriteLine($"{category.CategoryName} - {category.Description}");
+
+                        //Display products for the chosen category
+                        foreach (Product p in category.Products)
+                        {
+                            Console.WriteLine(p.ProductName);
+                        }
                     }
                     Console.WriteLine();
 
