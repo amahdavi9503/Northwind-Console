@@ -12,6 +12,7 @@ namespace NorthwindConsole.Models
         public string CategoryName { get; set; }
         public string Description { get; set; }
 
+        //Category has a virtual property here, which triggers lazy loading vs eager loading
         public virtual List<Product> Products { get; set; }
     }
 }

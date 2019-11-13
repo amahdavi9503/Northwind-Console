@@ -103,8 +103,13 @@ namespace NorthwindConsole
                     else if (choice == "4")
                     {
                         var db = new NorthwindContext();
-                        var query = db.Categories.OrderBy(p => p.CategoryId); //returns ALL categories sorted by CategoryID
 
+                        //This line fails because lazy loading is the default behavior, so we have to specify eager loading
+                        //  var query = db.Categories.OrderBy(p => p.CategoryId); //returns ALL categories sorted by CategoryID
+
+                        //Here, we are replacing default lazy loading with eager loading by using the "Include" statement,
+                        //which returns all categories but also includes the products for each category
+                        var query = db.Categories.Include("Products").OrderBy(p => p.CategoryId);
                         foreach (var item in query)
                         {
                             Console.WriteLine($"{item.CategoryName}");
